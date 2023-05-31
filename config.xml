@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<domain xmlns="http://xmlns.oracle.com/weblogic/domain" xmlns:sec="http://xmlns.oracle.com/weblogic/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wls="http://xmlns.oracle.com/weblogic/security/wls" xsi:schemaLocation="http://xmlns.oracle.com/weblogic/security/wls http://xmlns.oracle.com/weblogic/security/wls/1.0/wls.xsd http://xmlns.oracle.com/weblogic/domain http://xmlns.oracle.com/weblogic/1.0/domain.xsd http://xmlns.oracle.com/weblogic/security/xacml http://xmlns.oracle.com/weblogic/security/xacml/1.0/xacml.xsd http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator/1.0/passwordvalidator.xsd http://xmlns.oracle.com/weblogic/security http://xmlns.oracle.com/weblogic/1.0/security.xsd">
+  <name>skdkpei</name>
+  <domain-version>12.2.1.3.0</domain-version>
+  <security-configuration>
+    <name>skdkpei</name>
+    <realm>
+      <sec:authentication-provider xsi:type="wls:default-authenticatorType">
+        <sec:name>DefaultAuthenticator</sec:name>
+      </sec:authentication-provider>
+      <sec:authentication-provider xsi:type="wls:default-identity-asserterType">
+        <sec:name>DefaultIdentityAsserter</sec:name>
+        <sec:active-type>AuthenticatedUser</sec:active-type>
+        <sec:active-type>weblogic-jwt-token</sec:active-type>
+      </sec:authentication-provider>
+      <sec:role-mapper xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-role-mapperType">
+        <sec:name>XACMLRoleMapper</sec:name>
+      </sec:role-mapper>
+      <sec:authorizer xmlns:xac="http://xmlns.oracle.com/weblogic/security/xacml" xsi:type="xac:xacml-authorizerType">
+        <sec:name>XACMLAuthorizer</sec:name>
+      </sec:authorizer>
+      <sec:adjudicator xsi:type="wls:default-adjudicatorType">
+        <sec:name>DefaultAdjudicator</sec:name>
+      </sec:adjudicator>
+      <sec:credential-mapper xsi:type="wls:default-credential-mapperType">
+        <sec:name>DefaultCredentialMapper</sec:name>
+      </sec:credential-mapper>
+      <sec:cert-path-provider xsi:type="wls:web-logic-cert-path-providerType">
+        <sec:name>WebLogicCertPathProvider</sec:name>
+      </sec:cert-path-provider>
+      <sec:cert-path-builder>WebLogicCertPathProvider</sec:cert-path-builder>
+      <sec:name>myrealm</sec:name>
+      <sec:password-validator xmlns:pas="http://xmlns.oracle.com/weblogic/security/providers/passwordvalidator" xsi:type="pas:system-password-validatorType">
+        <sec:name>SystemPasswordValidator</sec:name>
+        <pas:min-password-length>8</pas:min-password-length>
+        <pas:min-numeric-or-special-characters>1</pas:min-numeric-or-special-characters>
+      </sec:password-validator>
+    </realm>
+    <default-realm>myrealm</default-realm>
+    <credential-encrypted>{AES}rVs10p1R9DXUIzroTVr8PSvdRtAuqkLFiilsQ6Op8wIBMsZtKgQO364Xwu+CKdCJMFqMu4ugzjug4uqeMQLVghW4uLUw0uw+RKtAtz3wo3PRBkH9Oyh4C0Pxr/p83DGK</credential-encrypted>
+    <node-manager-username>WDlhBtWB9n</node-manager-username>
+    <node-manager-password-encrypted>{AES}Bu2E2DzXfxihxa0AN3X71EVH0JhrR7U7C0s6ZX00t2k=</node-manager-password-encrypted>
+  </security-configuration>
+  <server>
+    <name>AdminServer</name>
+    <ssl>
+      <name>AdminServer</name>
+      <enabled>false</enabled>
+    </ssl>
+    <machine>mwi-vm01</machine>
+    <listen-port>7001</listen-port>
+    <listen-port-enabled>true</listen-port-enabled>
+    <listen-address></listen-address>
+  </server>
+  <server>
+    <name>mwiserver1</name>
+    <machine>mwi-vm01</machine>
+    <listen-port>8001</listen-port>
+    <cluster>mwiCluster1</cluster>
+    <listen-address>localhost</listen-address>
+    <jta-migratable-target>
+      <user-preferred-server>mwiserver1</user-preferred-server>
+      <cluster>mwiCluster1</cluster>
+    </jta-migratable-target>
+  </server>
+  <server>
+    <name>mwiserver2</name>
+    <machine>mwi-vm02</machine>
+    <listen-port>8003</listen-port>
+    <cluster>mwiCluster2</cluster>
+    <listen-address>localhost</listen-address>
+    <jta-migratable-target>
+      <user-preferred-server>mwiserver2</user-preferred-server>
+      <cluster>mwiCluster2</cluster>
+    </jta-migratable-target>
+  </server>
+  <server>
+    <name>mwiserver3</name>
+    <machine>mwi-vm01</machine>
+    <listen-port>8005</listen-port>
+    <cluster>mwiCluster1</cluster>
+    <listen-address>localhost</listen-address>
+    <jta-migratable-target>
+      <user-preferred-server>mwiserver3</user-preferred-server>
+      <cluster>mwiCluster1</cluster>
+    </jta-migratable-target>
+  </server>
+  <server>
+    <name>mwiserver4</name>
+    <machine>mwi-vm02</machine>
+    <listen-port>8007</listen-port>
+    <cluster>mwiCluster2</cluster>
+    <listen-address>localhost</listen-address>
+    <jta-migratable-target>
+      <user-preferred-server>mwiserver4</user-preferred-server>
+      <cluster>mwiCluster2</cluster>
+    </jta-migratable-target>
+  </server>
+  <cluster>
+    <name>mwiCluster1</name>
+    <cluster-messaging-mode>unicast</cluster-messaging-mode>
+    <dynamic-servers>
+      <maximum-dynamic-server-count>0</maximum-dynamic-server-count>
+    </dynamic-servers>
+  </cluster>
+  <cluster>
+    <name>mwiCluster2</name>
+    <cluster-messaging-mode>unicast</cluster-messaging-mode>
+    <dynamic-servers>
+      <maximum-dynamic-server-count>0</maximum-dynamic-server-count>
+    </dynamic-servers>
+  </cluster>
+  <production-mode-enabled>true</production-mode-enabled>
+  <embedded-ldap>
+    <name>skdkpei</name>
+    <credential-encrypted>{AES}lAmzxmcgqhM1wdqrnPnmUgr9Ny0eGbhtGXpVdCcw0rluNZMUaZken2Gox/5mEXfC</credential-encrypted>
+  </embedded-ldap>
+  <configuration-version>12.2.1.3.0</configuration-version>
+  <machine>
+    <name>mwi-vm01</name>
+  </machine>
+  <machine>
+    <name>mwi-vm02</name>
+  </machine>
+  <migratable-target>
+    <name>mwiserver1 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>mwiserver1</user-preferred-server>
+    <cluster>mwiCluster1</cluster>
+  </migratable-target>
+  <migratable-target>
+    <name>mwiserver3 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>mwiserver3</user-preferred-server>
+    <cluster>mwiCluster1</cluster>
+  </migratable-target>
+  <migratable-target>
+    <name>mwiserver2 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>mwiserver2</user-preferred-server>
+    <cluster>mwiCluster2</cluster>
+  </migratable-target>
+  <migratable-target>
+    <name>mwiserver4 (migratable)</name>
+    <notes>This is a system generated default migratable target for a server. Do not delete manually.</notes>
+    <user-preferred-server>mwiserver4</user-preferred-server>
+    <cluster>mwiCluster2</cluster>
+  </migratable-target>
+  <admin-server-name>AdminServer</admin-server-name>
+</domain>

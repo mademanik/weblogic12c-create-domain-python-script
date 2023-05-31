@@ -1,0 +1,39 @@
+https://www.youtube.com/watch?v=xcloqCLVxZc&t=345s
+
+https://www.youtube.com/watch?v=9iUMR2SEvRw&t=15s
+
+
+1. set ssl (enable, false) di weblogic config.xml 
+(keystore problem)
+
+(SANGAT PENTING)
+enable port url weblogic
+firewall-cmd --zone=public --add-port=7001/tcp --permanent
+success
+firewall-cmd --zone=public --add-port=8001/tcp --permanent
+success
+firewall-cmd --zone=public --add-port=8002/tcp --permanent (untuk enable ssl https)
+success
+firewall-cmd --reload
+success 
+
+2.node manager
+https://www.youtube.com/watch?v=Fu0ijsOk3vk&t=5s
+
+setting secure listener false di nodemanager.properties
+
+1020006137654
+
+3. Setting SSL : tutorial ada di : https://www.youtube.com/watch?v=LUvBvmBzu9o&t=9s
+
+/home/itopr/Oracle/Oracle_Home/user_projects/domains/base_domain/security/identity.jks
+
+keytool -genkey -alias mine -keyalg RSA -keysize 2048 -sigalg SHA256withRSA -validity 10000 -keypass password1 -keystore identity.jks -storepass password1
+
+keytool  -exportcert -alias mine -file root.cer -keystore identity.jks -storepass password1
+
+keytool -importcert -alias mine -file root.cer -keystore trust.jks -storepass password1
+
+keytool -importcert -alias mine -keystore C:\Java\jre_8u101_64b\lib\security\cacerts -file root.cer -storepass changeit
+
+/home/itopr/Oracle/Oracle_Home/user_projects/domains/base_domain/security/trust.jks
